@@ -17,6 +17,9 @@
     <object>objects\obj_hook</object>
     <object>objects\obj_wall</object>
   </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
