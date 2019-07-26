@@ -8,6 +8,49 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>Constants</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>spawn_dist = 24
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -48,11 +91,22 @@
             <string>// If the player releases their left click and a hook is not present
 // then create a hook and send it to the mouse
 if (mouse_check_button_released(mb_left) &amp;&amp; !instance_exists(obj_hook)) {
-    instance_create(mouse_x,mouse_y,obj_hook);
-    // makes the hook point the correct direction
+    // this angle is used for spawning the hook and the trajectory of it
+    // NOTE: this is in degrees
+    angle = point_direction(self.x,self.y,mouse_x,mouse_y)
+    
+    // NOTE: pi/190 is needed because cos and sin take a radians input
+    relative_x = spawn_dist * cos(angle*pi/180)
+    // NOTE: spawn_dist must be negative here because negative is up
+    relative_y = -spawn_dist * sin(angle*pi/180)
+    
+    instance_create(x+relative_x,y+relative_y,obj_hook);
+    
+    // make the hook point the correct direction
+    obj_hook.direction = angle
     // NOTE: -90 makes it rotate the propper direction
     // this is because the sprite is pointing up and up is 90 so -90 cancels it out
-    obj_hook.image_angle = point_direction(self.x,self.y,mouse_x,mouse_y)-90
+    obj_hook.image_angle = obj_hook.direction-90
 }
 
 // If the player releases their right click and a hook is present
