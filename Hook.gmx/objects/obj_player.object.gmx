@@ -49,6 +49,10 @@
 // then create a hook and send it to the mouse
 if (mouse_check_button_released(mb_left) &amp;&amp; !instance_exists(obj_hook)) {
     instance_create(mouse_x,mouse_y,obj_hook);
+    // makes the hook point the correct direction
+    // NOTE: -90 makes it rotate the propper direction
+    // this is because the sprite is pointing up and up is 90 so -90 cancels it out
+    obj_hook.image_angle = point_direction(self.x,self.y,mouse_x,mouse_y)-90
 }
 
 // If the player releases their right click and a hook is present
