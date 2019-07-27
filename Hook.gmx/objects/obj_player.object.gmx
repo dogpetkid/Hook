@@ -45,7 +45,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>spawn_dist = 24
+            <string>// distance the hook spawns out from the center of the player
+spawn_dist = 24
+// the speed the player goes towards the hook
+pull_speed = 4
+// the distance away from the hook the player stops
+stop_distance = 6
 </string>
           </argument>
         </arguments>
@@ -114,6 +119,60 @@ if (mouse_check_button_released(mb_left) &amp;&amp; !instance_exists(obj_hook)) 
 if (mouse_check_button_released(mb_right) &amp;&amp; instance_exists(obj_hook)) {
     // destroy the first instance of the hook
     instance_destroy(instance_find(obj_hook,0));
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>Pull hook</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (instance_exists(obj_hook)) {
+    angle = point_direction(self.x,self.y,obj_hook.x,obj_hook.y)
+    
+    // If space is held and the hook is hooked and the player isn't too close to the hook
+    // then step the player into the direction of the hook once
+    if (keyboard_check(vk_space) &amp;&amp; obj_hook.hooked &amp;&amp;
+        distance_to_object(obj_hook)&gt;stop_distance) {
+        
+        // NOTE: pi/190 is needed because cos and sin take a radians input
+        x+= spawn_dist * cos(angle*pi/180)
+        // NOTE: spawn_dist must be negative here because negative is up
+        y+= -spawn_dist * sin(angle*pi/180)
+    }
 }
 </string>
           </argument>
