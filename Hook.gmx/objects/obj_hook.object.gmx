@@ -48,8 +48,8 @@
             <string>// The angle of the hook is set by the player creating it
 
 // The distance traveled in 4 quartersteps
-stepspeed = 16
-hooked = false
+stepspeed = 16;
+hooked = false;
 </string>
           </argument>
         </arguments>
@@ -103,14 +103,14 @@ hooked = false
 for (i=0;i&lt;4;i++) {
     // move the position of the hook
      // NOTE: pi/190 is needed because cos and sin take a radians input
-    x+= stepspeed/4 * cos(direction*pi/180)
+    x+= stepspeed/4 * cos(direction*pi/180);
     // NOTE: spawn_dist must be negative here because negative is up
-    y+= -stepspeed/4 * sin(direction*pi/180)
+    y+= -stepspeed/4 * sin(direction*pi/180);
     
     // if colliding with a solid, stop the hook
     if (!place_free(x,y)) {
-        stepspeed = 0
-        break
+        stepspeed = 0;
+        break;
     }
 }
 </string>
@@ -155,14 +155,14 @@ for (i=0;i&lt;4;i++) {
             <kind>1</kind>
             <string>// If the wall is hookable then stop at the wall
 if (place_meeting(x,y,obj_wall_hookable)) {
-    stepspeed = 0
-    hooked = true
+    stepspeed = 0;
+    hooked = true;
 }
 
 // If the wall is unhookable then stop at the wall
 // but if it is hooked ignore destroying the hook
 if (place_meeting(x,y,obj_wall_unhookable) &amp;&amp; !hooked) {
-    instance_destroy()
+    instance_destroy();
 }
 </string>
           </argument>

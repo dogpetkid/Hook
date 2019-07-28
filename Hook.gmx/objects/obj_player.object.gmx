@@ -46,11 +46,11 @@
           <argument>
             <kind>1</kind>
             <string>// distance the hook spawns out from the center of the player
-spawn_dist = 24
+spawn_dist = 24;
 // the speed the player goes towards the hook
-pull_speed = 4
+pull_speed = 4;
 // the distance away from the hook the player stops
-stop_distance = 6
+stop_distance = 6;
 </string>
           </argument>
         </arguments>
@@ -98,20 +98,20 @@ stop_distance = 6
 if (mouse_check_button_released(mb_left) &amp;&amp; !instance_exists(obj_hook)) {
     // this angle is used for spawning the hook and the trajectory of it
     // NOTE: this is in degrees
-    angle = point_direction(self.x,self.y,mouse_x,mouse_y)
+    angle = point_direction(self.x,self.y,mouse_x,mouse_y);
     
     // NOTE: pi/190 is needed because cos and sin take a radians input
-    relative_x = spawn_dist * cos(angle*pi/180)
+    relative_x = spawn_dist * cos(angle*pi/180);
     // NOTE: spawn_dist must be negative here because negative is up
-    relative_y = -spawn_dist * sin(angle*pi/180)
+    relative_y = -spawn_dist * sin(angle*pi/180);
     
     instance_create(x+relative_x,y+relative_y,obj_hook);
     
     // make the hook point the correct direction
-    obj_hook.direction = angle
+    obj_hook.direction = angle;
     // NOTE: -90 makes it rotate the propper direction
     // this is because the sprite is pointing up and up is 90 so -90 cancels it out
-    obj_hook.image_angle = obj_hook.direction-90
+    obj_hook.image_angle = obj_hook.direction-90;
 }
 
 // If the player releases their right click and a hook is present
@@ -161,7 +161,7 @@ if (mouse_check_button_released(mb_right) &amp;&amp; instance_exists(obj_hook)) 
           <argument>
             <kind>1</kind>
             <string>if (instance_exists(obj_hook)) {
-    angle = point_direction(self.x,self.y,obj_hook.x,obj_hook.y)
+    angle = point_direction(self.x,self.y,obj_hook.x,obj_hook.y);
     
     // If space is held and the hook is hooked and the player isn't too close to the hook
     // then step the player into the direction of the hook once
@@ -169,9 +169,9 @@ if (mouse_check_button_released(mb_right) &amp;&amp; instance_exists(obj_hook)) 
         distance_to_object(obj_hook)&gt;stop_distance) {
         
         // NOTE: pi/190 is needed because cos and sin take a radians input
-        x+= spawn_dist * cos(angle*pi/180)
+        x+= spawn_dist * cos(angle*pi/180);
         // NOTE: spawn_dist must be negative here because negative is up
-        y+= -spawn_dist * sin(angle*pi/180)
+        y+= -spawn_dist * sin(angle*pi/180);
     }
 }
 </string>
