@@ -296,7 +296,8 @@ if (place_meeting(x,y,obj_bubble) || place_meeting(x,y,obj_triangle)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>room_restart();
+            <string>game_restart();
+//room_restart();
 </string>
           </argument>
         </arguments>
