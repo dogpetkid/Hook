@@ -48,9 +48,11 @@
             <string>// distance the hook spawns out from the center of the player
 spawn_dist = 24;
 // the speed the player goes towards the hook
-pull_speed = 4;
+pull_speed = 24;
 // the distance away from the hook the player stops
-stop_distance = 6;
+stop_distance = 4;
+// set to true to not shoot on the next step
+no_shoot = false;
 </string>
           </argument>
         </arguments>
@@ -73,7 +75,7 @@ stop_distance = 6;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>Creation of Hook</string>
+            <string>Hook management</string>
           </argument>
         </arguments>
       </action>
@@ -95,7 +97,7 @@ stop_distance = 6;
             <kind>1</kind>
             <string>// If the player releases their left click and a hook is not present
 // then create a hook and send it to the mouse
-if (mouse_check_button_released(mb_left) &amp;&amp; !instance_exists(obj_hook)) {
+if (mouse_check_button_released(mb_left) &amp;&amp; !instance_exists(obj_hook) &amp;&amp; no_shoot==false) {
     // this angle is used for spawning the hook and the trajectory of it
     // NOTE: this is in degrees
     angle = point_direction(self.x,self.y,mouse_x,mouse_y);
@@ -120,6 +122,9 @@ if (mouse_check_button_released(mb_right) &amp;&amp; instance_exists(obj_hook)) 
     // destroy the first instance of the hook
     instance_destroy(instance_find(obj_hook,0));
 }
+
+// allow a hook to be shot again
+no_shoot = false;
 </string>
           </argument>
         </arguments>
@@ -163,15 +168,45 @@ if (mouse_check_button_released(mb_right) &amp;&amp; instance_exists(obj_hook)) 
             <string>if (instance_exists(obj_hook)) {
     angle = point_direction(self.x,self.y,obj_hook.x,obj_hook.y);
     
-    // If space is held and the hook is hooked and the player isn't too close to the hook
+    // DEFAULT PULLING
+    // If space/left click is held and the hook is hooked and the player is more than 1
+    // step away from being within the stop distance
     // then step the player into the direction of the hook once
-    if (keyboard_check(vk_space) &amp;&amp; obj_hook.hooked &amp;&amp;
-        distance_to_object(obj_hook)&gt;stop_distance) {
+    if ((keyboard_check(vk_space) || mouse_check_button(mb_left)) &amp;&amp;
+        obj_hook.hooked &amp;&amp;
+        distance_to_object(obj_hook)&gt;(stop_distance+pull_speed)) {
         
         // NOTE: pi/190 is needed because cos and sin take a radians input
-        x+= spawn_dist * cos(angle*pi/180);
+        x+= pull_speed * cos(angle*pi/180);
         // NOTE: spawn_dist must be negative here because negative is up
-        y+= -spawn_dist * sin(angle*pi/180);
+        y+= -pull_speed * sin(angle*pi/180);
+    }
+    
+    // JUMP TO STOP_DISTANCE
+    // If space/left click is held and the hook is hooked and the player can step
+    // to the stop_distance in a step, then jump to the stop_distance
+    else if ((keyboard_check(vk_space) || mouse_check_button(mb_left)) &amp;&amp;
+        obj_hook.hooked &amp;&amp;
+        distance_to_object(obj_hook)&gt;stop_distance) {
+    
+        // only move the difference to move to the stop distance
+        difference = distance_to_object(obj_hook) - stop_distance;
+        
+        // NOTE: pi/190 is needed because cos and sin take a radians input
+        x+= difference * cos(angle*pi/180);
+        // NOTE: spawn_dist must be negative here because negative is up
+        y+= -difference * sin(angle*pi/180);
+    }
+    
+    // AUTO REMOVE HOOK
+    // if the player is within the stop distance, and stopped pulling the hook
+    // while it is in a wall,
+    // then delete it and don't shoot one this step 
+    else if ((keyboard_check_released(vk_space) || mouse_check_button_released(mb_left)) &amp;&amp;
+        obj_hook.hooked &amp;&amp; distance_to_object(obj_hook)&lt;=stop_distance) {
+        
+        instance_destroy(obj_hook);
+        no_shoot = true;
     }
 }
 </string>
