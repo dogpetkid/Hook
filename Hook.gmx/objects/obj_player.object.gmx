@@ -214,8 +214,8 @@ if (mouse_check_button_released(mb_right) &amp;&amp; instance_exists(obj_hook)) 
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Death by bubble
-if (place_meeting(x,y,obj_bubble)) {
+            <string> // Death by bubble or triangle
+if (place_meeting(x,y,obj_bubble) || place_meeting(x,y,obj_triangle)) {
     // Player is killed
     event_user(0);
 }

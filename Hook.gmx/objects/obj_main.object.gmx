@@ -45,9 +45,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Time between bubbles spawning
+            <string>// Time between enemies spawning
 // in seconds
 bubble_spawn = 5;
+triangle_spawn = 11;
 </string>
           </argument>
         </arguments>
@@ -91,6 +92,107 @@ bubble_spawn = 5;
             <string>// bubble spawnning timer
 // 1 step
 alarm[0] = 1;
+// triangle spawnning timer
+// 5 seconds
+alarm[1] = 5 * room_speed;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>Triangle spawning timer</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// 4 cases
+// spawn bubble on: top, bottom, left, or right
+side = irandom(4);
+spawn_x = random(room_width);
+spawn_y = random(room_height);
+
+// top
+if (side == 0) instance_create(spawn_x,-16,obj_triangle);
+// buttom
+else if (side == 1) instance_create(spawn_x,room_height+16,obj_triangle);
+// left
+else if (side == 2) instance_create(-16,spawn_y,obj_triangle);
+// right
+else if (side == 3) instance_create(room_width+16,spawn_y,obj_triangle);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>605</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>Restart alarm</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// triangle_spawn is in seconds so it has to be multiplied by steps/second
+alarm[1] = triangle_spawn * room_speed;
 </string>
           </argument>
         </arguments>

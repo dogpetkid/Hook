@@ -11,6 +11,7 @@
     <sprite>sprites\spr_wall_white</sprite>
     <sprite>sprites\spr_wall_gray</sprite>
     <sprite>sprites\spr_bubble</sprite>
+    <sprite>sprites\spr_triangle</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -21,6 +22,7 @@
     <object>objects\obj_wall_hookable</object>
     <object>objects\obj_wall_unhookable</object>
     <object>objects\obj_bubble</object>
+    <object>objects\obj_triangle</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
